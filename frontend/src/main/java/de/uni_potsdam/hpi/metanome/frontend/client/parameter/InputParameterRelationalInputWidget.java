@@ -28,17 +28,12 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
 	protected ConfigurationSpecificationRelationalInput specification;
 	protected List<RelationalInput> inputWidgets;
 
-	public InputParameterRelationalInputWidget(ConfigurationSpecificationRelationalInput config) throws AlgorithmConfigurationException {
+	public InputParameterRelationalInputWidget(ConfigurationSpecificationRelationalInput config) {
 		super(config);
 	}
 
 	@Override
-	protected void addInputField(boolean optional) throws AlgorithmConfigurationException {
-		addInputField(optional, 0);
-	}
-
-	@Override
-	protected void addInputField(boolean optional, int i) throws AlgorithmConfigurationException {
+	protected void addInputField(boolean optional) {
 		RelationalInput field = new RelationalInput(optional);
 		this.inputWidgets.add(field);
 		int index = (this.getWidgetCount() < 1 ? 0 : this.getWidgetCount() - 1);

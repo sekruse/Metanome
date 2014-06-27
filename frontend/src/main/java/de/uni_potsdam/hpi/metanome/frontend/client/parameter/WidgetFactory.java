@@ -21,7 +21,7 @@ import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 
 public class WidgetFactory {
 
-    public static InputParameterWidget buildWidget(ConfigurationSpecification config) throws AlgorithmConfigurationException {
+    public static InputParameterWidget buildWidget(ConfigurationSpecification config) {
         InputParameterWidget widget = null;
         if (config instanceof ConfigurationSpecificationBoolean)
             widget = new InputParameterBooleanWidget((ConfigurationSpecificationBoolean) config);
