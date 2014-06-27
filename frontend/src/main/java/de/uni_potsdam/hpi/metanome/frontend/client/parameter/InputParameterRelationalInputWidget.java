@@ -17,9 +17,13 @@
 package de.uni_potsdam.hpi.metanome.frontend.client.parameter;
 
 
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.uni_potsdam.hpi.metanome.algorithm_integration.configuration.*;
 import de.uni_potsdam.hpi.metanome.frontend.client.helpers.InputValidationException;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataService;
+import de.uni_potsdam.hpi.metanome.frontend.client.services.InputDataServiceAsync;
 
 import java.util.List;
 
@@ -30,6 +34,41 @@ public class InputParameterRelationalInputWidget extends InputParameterDataSourc
 
 	public InputParameterRelationalInputWidget(ConfigurationSpecificationRelationalInput config) {
 		super(config);
+		this.addAvailableCsvsToListbox(inputWidgets);
+	}
+
+	/**
+	 * Calls the InputDataService to retrieve available CSV files (specified by their
+	 * file paths) and adds them as entries to the given ListBox. Only the actual file
+	 * name (not the preceding directories) are displayed.
+	 *
+	 * @param widgets
+	 */
+	private void addAvailableCsvsToListbox(final List<RelationalInput> widgets) {
+		AsyncCallback<String[]> callback = getCallback(widgets);
+		InputDataServiceAsync service = GWT.create(InputDataService.class);
+		service.listCsvInputFiles(callback);
+	}
+
+
+	protected AsyncCallback<String[]> getCallback(final List<RelationalInput> widgets) {
+		return new AsyncCallback<String[]>() {
+			public void onFailure(Throwable caught) {
+				// TODO: Do something with errors.
+				caught.printStackTrace();
+			}
+
+			public void onSuccess(String[] result) {
+				for (RelationalInput widget : widgets) {
+					try {
+						widget.addCsvFiles(result);
+					} catch (AlgorithmConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		};
 	}
 
 	@Override
