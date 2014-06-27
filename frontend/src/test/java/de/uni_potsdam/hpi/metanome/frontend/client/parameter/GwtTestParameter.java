@@ -46,18 +46,20 @@ public class GwtTestParameter extends GWTTestCase {
         ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("NumberOfTables");
         ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
         ConfigurationSpecificationListBox.setSettings(setting);
+		ConfigurationSpecificationRelationalInput ConfigurationSpecificationRelationalInput = new ConfigurationSpecificationRelationalInput("relational");
 
         paramList.add(ConfigurationSpecificationString);
         paramList.add(ConfigurationSpecificationBoolean);
         paramList.add(ConfigurationSpecificationCsvFile);
         paramList.add(ConfigurationSpecificationListBox);
         paramList.add(ConfigurationSpecificationInteger);
+		paramList.add(ConfigurationSpecificationRelationalInput);
 
         //Execute
         ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
 
         //Check
-        assertEquals(6, pt.getRowCount());
+        assertEquals(7, pt.getRowCount());
 
         // - STRING row
         assertEquals(2, pt.getCellCount(0));
@@ -79,9 +81,13 @@ public class GwtTestParameter extends GWTTestCase {
         assertEquals(2, pt.getCellCount(4));
         assertEquals(InputParameterIntegerWidget.class, pt.getWidget(4, 1).getClass());
 
+		// - RELATIONAL INPUT row
+		assertEquals(2, pt.getCellCount(5));
+		assertEquals(InputParameterRelationalInputWidget.class, pt.getWidget(5, 1).getClass());
+
         // - Submit button row
-        assertEquals(1, pt.getCellCount(5));
-        assertEquals(Button.class, pt.getWidget(5, 0).getClass());
+        assertEquals(1, pt.getCellCount(6));
+        assertEquals(Button.class, pt.getWidget(6, 0).getClass());
     }
 
     @Test
@@ -102,6 +108,7 @@ public class GwtTestParameter extends GWTTestCase {
         ConfigurationSpecificationInteger ConfigurationSpecificationInteger = new ConfigurationSpecificationInteger("integer");
         ConfigurationSpecificationListBox ConfigurationSpecificationListBox = new ConfigurationSpecificationListBox("listBox");
         ConfigurationSpecificationListBox.setSettings(setting);
+		ConfigurationSpecificationRelationalInput ConfigurationSpecificationRelationalInput = new ConfigurationSpecificationRelationalInput("relational");
 
         paramList.add(ConfigurationSpecificationString);
         paramList.add(ConfigurationSpecificationBoolean);
@@ -109,6 +116,7 @@ public class GwtTestParameter extends GWTTestCase {
         paramList.add(ConfigurationSpecificationSQLIterator);
         paramList.add(ConfigurationSpecificationInteger);
         paramList.add(ConfigurationSpecificationListBox);
+		paramList.add(ConfigurationSpecificationRelationalInput);
 
         ParameterTable pt = new ParameterTable(paramList, null, new TabWrapper());
         chooseCsvFile((InputParameterCsvFileWidget) pt.getWidget(2, 1));
@@ -125,6 +133,7 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(retrievedParams.contains(ConfigurationSpecificationInteger));
         assertTrue(!retrievedParams.contains(ConfigurationSpecificationCsvFile));
         assertTrue(!retrievedParams.contains(ConfigurationSpecificationSQLIterator));
+		assertTrue(!retrievedParams.contains(ConfigurationSpecificationRelationalInput));
 
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationString));
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationBoolean));
@@ -132,6 +141,7 @@ public class GwtTestParameter extends GWTTestCase {
         assertTrue(!retrievedDataSources.contains(ConfigurationSpecificationListBox));
         assertTrue(retrievedDataSources.contains(ConfigurationSpecificationCsvFile));
         assertTrue(retrievedDataSources.contains(ConfigurationSpecificationSQLIterator));
+		assertTrue(retrievedDataSources.contains(ConfigurationSpecificationRelationalInput));
     }
 
     /**
@@ -166,6 +176,8 @@ public class GwtTestParameter extends GWTTestCase {
         String identifierListbox = "listboxParam";
         ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox);
         listboxParam.setSettings(setting);
+		String identifierRelational = "relationalParam";
+		ConfigurationSpecification relationalParam = new ConfigurationSpecificationRelationalInput(identifierRelational);
 
         //Execute
         InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -174,6 +186,7 @@ public class GwtTestParameter extends GWTTestCase {
         InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
         InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
         InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
+		InputParameterWidget relationalWidget = WidgetFactory.buildWidget(relationalParam);
 
         //Check
         assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -193,6 +206,9 @@ public class GwtTestParameter extends GWTTestCase {
 
         assertTrue(integerWidget instanceof InputParameterIntegerWidget);
         assertEquals(identifierInteger, integerWidget.getSpecification().getIdentifier());
+
+		assertTrue(relationalWidget instanceof InputParameterRelationalInputWidget);
+		assertEquals(identifierRelational, relationalWidget.getSpecification().getIdentifier());
     }
 
     @Test
@@ -217,6 +233,8 @@ public class GwtTestParameter extends GWTTestCase {
         String identifierListbox = "listboxParam";
         ConfigurationSpecificationListBox listboxParam = new ConfigurationSpecificationListBox(identifierListbox, 2);
         listboxParam.setSettings(new ConfigurationSettingListBox[]{setting, setting});
+		String identifierRelational = "relationalParam";
+		ConfigurationSpecification relationalParam = new ConfigurationSpecificationRelationalInput(identifierRelational, 2);
 
         //Execute
         InputParameterWidget stringWidget = WidgetFactory.buildWidget(stringParam);
@@ -225,6 +243,7 @@ public class GwtTestParameter extends GWTTestCase {
         InputParameterWidget integerWidget = WidgetFactory.buildWidget(integerParam);
         InputParameterWidget sqlWidget = WidgetFactory.buildWidget(sqlParam);
         InputParameterWidget listboxWidget = WidgetFactory.buildWidget(listboxParam);
+		InputParameterWidget relationalWidget = WidgetFactory.buildWidget(relationalParam);
 
         //Check
         assertTrue(stringWidget instanceof InputParameterStringWidget);
@@ -244,6 +263,9 @@ public class GwtTestParameter extends GWTTestCase {
 
         assertTrue(listboxWidget instanceof InputParameterListBoxWidget);
         assertEquals(2, ((InputParameterListBoxWidget) listboxWidget).getWidgetCount());
+
+		assertTrue(relationalWidget instanceof InputParameterRelationalInputWidget);
+		assertEquals(2, ((InputParameterRelationalInputWidget) relationalWidget).getWidgetCount());
     }
 
     @Test

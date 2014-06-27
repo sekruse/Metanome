@@ -56,7 +56,7 @@ public class CsvFileInput extends InputField {
     /**
      * Constructor.
      *
-     * @param configSpec
+     * @param optional If true, a remove button will be rendered, to remove this widget from its parent.
      */
     public CsvFileInput(boolean optional) {
         super(optional);

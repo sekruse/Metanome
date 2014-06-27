@@ -35,6 +35,8 @@ public class WidgetFactory {
             widget = new InputParameterIntegerWidget((ConfigurationSpecificationInteger) config);
         else if (config instanceof ConfigurationSpecificationListBox)
             widget = new InputParameterListBoxWidget((ConfigurationSpecificationListBox) config);
+		else if (config instanceof ConfigurationSpecificationRelationalInput)
+			widget = new InputParameterRelationalInputWidget((ConfigurationSpecificationRelationalInput) config);
         return widget;
     }
 }
